@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A full-stack blog management system: register, log in and manage your blog posts." />
+  <title>BlogSpace - Blog Management System</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <a class="skip-link" href="#posts">Skip to posts</a>
+
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="/" aria-label="BlogSpace home"><span class="brand-mark" aria-hidden="true">&#9998;</span> BlogSpace</a>
+      <nav id="auth-area" class="auth-area" aria-label="Account"></nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="intro">
+      <h1>Stories worth sharing</h1>
+      <p>Read posts from the community. Log in to write, edit and manage your own.</p>
+    </section>
+
+    <section class="toolbar" aria-label="Search and filters">
+      <form id="search-form" class="search" role="search">
+        <label for="search-input" class="sr-only">Search posts</label>
+        <input id="search-input" type="search" placeholder="Search posts..." maxlength="100" autocomplete="off" />
+      </form>
+      <label for="category-filter" class="sr-only">Filter by category</label>
+      <select id="category-filter">
+        <option value="">All categories</option>
+      </select>
+    </section>
+
+    <div id="active-filters" class="active-filters" aria-live="polite"></div>
+
+    <div id="status" class="status" role="status" aria-live="polite"></div>
+    <section id="posts" class="posts" aria-label="Blog posts" tabindex="-1"></section>
+
+    <nav id="pager" class="pager hidden" aria-label="Pagination">
+      <button type="button" id="prev-page" class="btn btn-ghost">&larr; Previous</button>
+      <span id="page-info"></span>
+      <button type="button" id="next-page" class="btn btn-ghost">Next &rarr;</button>
+    </nav>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">BlogSpace &middot; Cognetix internship project &middot; Node.js, Express and MongoDB</div>
+  </footer>
+
+  <!-- Login / Register dialog -->
+  <dialog id="auth-dialog" aria-labelledby="auth-title">
+    <form id="auth-form" novalidate>
+      <div class="dlg-head">
+        <h2 id="auth-title">Log in</h2>
+        <button type="button" class="icon-btn" data-close aria-label="Close">&times;</button>
+      </div>
+
+      <div id="name-row" class="field hidden">
+        <label for="auth-name">Name</label>
+        <input id="auth-name" type="text" maxlength="50" autocomplete="name" />
+      </div>
+      <div class="field">
+        <label for="auth-email">Email</label>
+        <input id="auth-email" type="email" autocomplete="email" />
+      </div>
+      <div class="field">
+        <label for="auth-password">Password</label>
+        <input id="auth-password" type="password" autocomplete="current-password" />
+        <small id="pw-hint" class="hint hidden">At least 8 characters.</small>
+      </div>
+
+      <p id="auth-error" class="form-error hidden" role="alert"></p>
+
+      <button type="submit" id="auth-submit" class="btn btn-primary btn-block">Log in</button>
+      <p class="switch">
+        <span id="switch-text">New here?</span>
+        <button type="button" id="auth-switch" class="link-btn">Create an account</button>
+      </p>
+    </form>
+  </dialog>
+
+  <!-- Read post dialog -->
+  <dialog id="view-dialog" class="wide" aria-labelledby="view-title">
+    <article>
+      <div class="dlg-head">
+        <h2 id="view-title"></h2>
+        <button type="button" class="icon-btn" data-close aria-label="Close">&times;</button>
+      </div>
+      <p id="view-meta" class="meta"></p>
+      <div id="view-tags" class="tags"></div>
+      <div id="view-content" class="post-body"></div>
+      <div id="view-actions" class="dlg-actions hidden">
+        <button type="button" id="view-edit" class="btn btn-ghost">Edit</button>
+        <button type="button" id="view-delete" class="btn btn-danger">Delete</button>
+      </div>
+    </article>
+  </dialog>
+
+  <!-- Create / edit post dialog -->
+  <dialog id="editor-dialog" class="wide" aria-labelledby="editor-title">
+    <form id="editor-form" novalidate>
+      <div class="dlg-head">
+        <h2 id="editor-title">New post</h2>
+        <button type="button" class="icon-btn" data-close aria-label="Close">&times;</button>
+      </div>
+
+      <div class="field">
+        <label for="post-title">Title</label>
+        <input id="post-title" type="text" maxlength="120" />
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="post-category">Category</label>
+          <input id="post-category" type="text" maxlength="40" list="category-list" placeholder="e.g. Tech" />
+          <datalist id="category-list"></datalist>
+        </div>
+        <div class="field">
+          <label for="post-tags">Tags <small>(comma separated, max 5)</small></label>
+          <input id="post-tags" type="text" maxlength="120" placeholder="javascript, node" />
+        </div>
+      </div>
+      <div class="field">
+        <label for="post-content">Content</label>
+        <textarea id="post-content" rows="9" maxlength="10000"></textarea>
+      </div>
+
+      <p id="editor-error" class="form-error hidden" role="alert"></p>
+
+      <div class="dlg-actions">
+        <button type="button" class="btn btn-ghost" data-close>Cancel</button>
+        <button type="submit" id="editor-submit" class="btn btn-primary">Publish</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
